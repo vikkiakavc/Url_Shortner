@@ -20,7 +20,11 @@ const addUrl = async (req, res) => {
         res.status(200).json(response);
     }catch(err) {
         console.log('Error: ', err);
-        res.status(500).json({ error: 'Internal server error!'})
+        if (code){
+            res.status(500).json({ error: err.errors[0].message})
+        }else{
+            res.status(500).json({ error: 'Internal server error!'})
+        }
     }
     
 }
@@ -38,6 +42,13 @@ const findUrl = async (req, res) => {
                 error: "Url not found!"
             })
         }
+        // if (data.clicks === 3){
+        //     res.status(429).json({ error: 'you have reached your maximum limit for the api'})
+        //     return;
+        // }
+        // setTimeout((data) => {
+
+        // },20000)
         data.clicks += 1;
         await data.save();
 
