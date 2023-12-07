@@ -1,10 +1,15 @@
-const {Sequelize, DataTypes} = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('project1', 'root', '' , {
-    host: 'localhost',
+const sequelize = new Sequelize('project1', 'root', '', {
+    host: '127.0.0.1',
+    port: 3306,
     dialect: 'mysql',
-    logging:false,
-    pool: {max: 5, min: 0, idle: 100000},
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
 })
 
 sequelize.authenticate().then(() => {
@@ -20,7 +25,7 @@ db.sequelize = sequelize;
 db.shorts = require('../models/shorts.js')(sequelize, DataTypes)
 
 
-db.sequelize.sync({force: false}).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     console.log(' yes re-sync')
 })
 
