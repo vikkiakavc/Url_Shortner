@@ -1,14 +1,14 @@
-const express = require('express')
+const express = require('express');
 require('./db/index.js');
 const shortCtrl = require('./controller/shortController.js')
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 app.use(express.json());
 app.get('/', (req, res) => {
     res.send({
         name: "Vikas"
     })
-})
+});
 app.post('/add' , shortCtrl.addUrl);
 
 // app.post('/add/:url/:custom' , shortCtrl.addUrlWithCustom);
