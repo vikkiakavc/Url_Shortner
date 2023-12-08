@@ -1,16 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DB_NAME || "project1", process.env.DB_USER || "root", process.env.DB_PASSWORD || "", {
-    host: process.env.DB_HOST || "127.0.0.1",
-    port: process.env.DB_PORT || 3306,
+const sequelize = new Sequelize(process.env.MYSQL_DATABASE_URL, {
     dialect: 'mysql',
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-});
+    logging: false, // Set to true to display SQL queries in the console
+  });
 
 sequelize.authenticate().then(() => {
     console.log('connected')
@@ -25,7 +18,7 @@ db.sequelize = sequelize;
 db.shorts = require('../models/shorts.js')(sequelize, DataTypes)
 
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     console.log(' yes re-sync')
 })
 
